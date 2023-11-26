@@ -1,0 +1,147 @@
+
+  <ng-container *ngIf="isoDateTime != null">
+    <ng-container *ngIf="isoDateTime | dfnsParseIso as agoDateTime">
+      <ng-container
+        *ngIf="now | dfnsIsEqual: agoDateTime; then showNow; else showDiff"
+      ></ng-container>
+      <ng-template #showDiff>
+        <ng-container
+          *ngIf="
+            now | dfnsDifferenceInSeconds: agoDateTime as agoInSeconds;
+            else showNow
+          "
+        >
+          <ng-container *ngIf="agoInSeconds > secondsInYear; else checkMonths">
+            <ng-container
+              *ngIf="now | dfnsDifferenceInYears: agoDateTime as years"
+            >
+              {{ years }}
+              {{ years > 1 ? 'years' : 'year' }}
+            </ng-container>
+          </ng-container>
+
+          <ng-template #checkMonths>
+            <ng-container
+              *ngIf="agoInSeconds > secondsInMonth; else checkWeeks"
+            >
+              <ng-container
+                *ngIf="now | dfnsDifferenceInMonths: agoDateTime as months"
+              >
+                {{ months }}
+                {{ months > 1 ? 'months' : 'month' }}
+              </ng-container>
+            </ng-container>
+          </ng-template>
+
+          <ng-template #checkWeeks>
+            <ng-container *ngIf="agoInSeconds > secondsInWeek; else checkDays">
+              <ng-container
+                *ngIf="now | dfnsDifferenceInWeeks: agoDateTime as weeks"
+              >
+                {{ weeks }}
+                {{ weeks > 1 ? 'weeks' : 'week' }}
+              </ng-container>
+            </ng-container>
+          </ng-template>
+
+          <ng-template #checkDays>
+            <ng-container *ngIf="agoInSeconds > secondsInDay; else checkHours">
+              <ng-container
+                *ngIf="now | dfnsDifferenceInDays: agoDateTime as days"
+              >
+                {{ days }}
+                {{ days > 1 ? 'days' : 'day' }}
+              </ng-container>
+            </ng-container>
+          </ng-template>
+
+          <ng-template #checkHours>
+            <ng-container
+              *ngIf="agoInSeconds > secondsInHour; else checkMinutes"
+            >
+              <ng-container
+                *ngIf="now | dfnsDifferenceInHours: agoDateTime as hours"
+              >
+                {{ hours }}
+                {{ hours > 1 ? 'hours' : 'hour' }}
+              </ng-container>
+            </ng-container>
+          </ng-template>
+
+          <ng-template #checkMinutes>
+            <ng-container
+              *ngIf="agoInSeconds > secondsInMinute; else displaySeconds"
+            >
+              <ng-container
+                *ngIf="now | dfnsDifferenceInMinutes: agoDateTime as minutes"
+              >
+                {{ minutes }}
+                {{ minutes > 1 ? 'minutes' : 'minute' }}
+              </ng-container>
+            </ng-container>
+          </ng-template>
+
+          <ng-template #displaySeconds>
+            {{ agoInSeconds }}
+            {{
+              agoInSeconds > 1 ? 'seconds' : 'seconds'
+            }}
+          </ng-template>
+          ago
+        </ng-container>
+      </ng-template>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="isoDate != null">
+    <ng-container *ngIf="isoDate | dfnsParseIso as agoDate">
+      <ng-container
+        *ngIf="now | dfnsIsEqual: agoDate; then showNow; else showDiff"
+      ></ng-container>
+      <ng-template #showDiff>
+        <ng-container
+          *ngIf="
+            now | dfnsDifferenceInDays: agoDate as agoInMinutes;
+            else showNow
+          "
+        >
+          <ng-container *ngIf="agoInMinutes > daysInYear; else checkMonths">
+            <ng-container *ngIf="now | dfnsDifferenceInYears: agoDate as years">
+              {{ years }}
+              {{ years > 1 ? 'years' : 'year' }}
+            </ng-container>
+          </ng-container>
+
+          <ng-template #checkMonths>
+            <ng-container *ngIf="agoInMinutes > daysInMonth; else checkWeeks">
+              <ng-container
+                *ngIf="now | dfnsDifferenceInMonths: agoDate as months"
+              >
+                {{ months }}
+                {{ months > 1 ? 'months' : 'month' }}
+              </ng-container>
+            </ng-container>
+          </ng-template>
+
+          <ng-template #checkWeeks>
+            <ng-container *ngIf="agoInMinutes > daysInWeek; else displayDays">
+              <ng-container
+                *ngIf="now | dfnsDifferenceInWeeks: agoDate as weeks"
+              >
+                {{ weeks }}
+                {{ weeks > 1 ? 'weeks' : 'week' }}
+              </ng-container>
+            </ng-container>
+          </ng-template>
+
+          <ng-template #displayDays>
+            {{ now | dfnsDifferenceInDays: agoDate }} days
+          </ng-template>
+        </ng-container>
+        ago
+      </ng-template>
+    </ng-container>
+  </ng-container>
+  <ng-template #showNow>
+    Now
+  </ng-template>
